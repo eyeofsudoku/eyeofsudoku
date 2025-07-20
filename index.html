@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eye of Sudoku</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Eye of Sudoku</div>
+        <div class="input-section">
+            <p>Enter the 33-digit Eye of Sudoku code to transmit the signal:</p>
+            <input type="text" id="codeInput" maxlength="33" placeholder="Enter 33-digit code" />
+            <button onclick="submitCode()">Transmit Code</button>
+            <div id="response"></div>
+            <div id="loadingBarContainer"><div id="loadingBar"></div></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
