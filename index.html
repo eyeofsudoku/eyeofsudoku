@@ -8,13 +8,20 @@
 </head>
 <body>
     <div class="container">
-        <div class="title">Eye of Sudoku</div>
+        <div class="title">
+            <div class="signal-icon">📡</div>
+            <div class="main-title"><strong>Eye of Sudoku</strong></div>
+            <div class="subtitle">This is a government-backed project. Do not transmit unauthorized codes — they may trigger unintended responses.</div>
+        </div>
         <div class="input-section">
             <p>Enter the 33-digit Eye of Sudoku code to transmit the signal:</p>
             <input type="text" id="codeInput" maxlength="33" placeholder="Enter 33-digit code" />
             <button onclick="submitCode()">Transmit Code</button>
             <div id="response"></div>
-            <div id="loadingBarContainer"><div id="loadingBar"></div></div>
+            <div id="loadingBarContainer"><div id="loadingBar"><span>Sending Signal...</span></div></div>
+        </div>
+        <div class="footer">
+            Transmission Array THOTH-12 is currently directing signals to Sector Z-12A — a deep-space mass beyond the Kuiper Belt. Each signal is encoded via Eye activation and emitted using low-frequency quantum pulses. Unauthorized transmissions may corrupt the alignment.
         </div>
     </div>
     <script src="script.js"></script>

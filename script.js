@@ -10,6 +10,7 @@ function submitCode() {
     response.innerHTML = "";
     barContainer.style.display = "none";
     bar.style.width = "0%";
+    bar.innerText = "Sending Signal...";
 
     if (input.length !== 33) {
         response.innerHTML = "⚠️ Code must be exactly 33 digits.";
@@ -18,10 +19,16 @@ function submitCode() {
 
     if (input === correctCode) {
         barContainer.style.display = "block";
-        bar.style.width = "100%";
-        setTimeout(() => {
-            response.innerHTML = "<p>✅ Signal successfully sent.</p><p>📡 We received a response.</p>";
-        }, 5000);
+        let width = 0;
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                response.innerHTML = "<p>✅ Signal successfully sent.</p><p>📡 We received a response.</p>";
+            } else {
+                width++;
+                bar.style.width = width + "%";
+            }
+        }, 50);
     } else {
         let incorrectCount = 0;
         for (let i = 0; i < 33; i++) {

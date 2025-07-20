@@ -1,3 +1,24 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'YourFont', sans-serif;
+  background-color: #0f0f0f;
+  color: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px; /* match input field width */
+  margin: 0 auto;
+  padding: 0 20px; /* Add this for left/right padding */
+  text-align: center;
+  box-sizing: border-box;
+}
+
 
 body, html {
     margin: 0;
@@ -16,19 +37,38 @@ body, html {
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .title {
     height: 25%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
     color: #3cff77;
 }
 
+.main-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 0.9em;
+    margin-top: 10px;
+    color: #e2dfcb;
+    max-width: 80%;
+    text-align: center;
+}
+
+.signal-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
 .input-section {
-    height: 75%;
+    height: 65%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,11 +104,30 @@ button {
     background: #444;
     margin-top: 20px;
     display: none;
+    overflow: hidden;
+    border-radius: 3px;
 }
 
 #loadingBar {
     width: 0%;
     height: 100%;
     background: #3cff77;
-    transition: width 5s;
+    text-align: center;
+    line-height: 20px;
+    color: #3e382e;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 5px #3cff77; }
+    50% { box-shadow: 0 0 15px #3cff77; }
+    100% { box-shadow: 0 0 5px #3cff77; }
+}
+
+.footer {
+    font-size: 9pt;
+    text-align: center;
+    padding: 10px 20px;
+    color: #aaa;
 }
