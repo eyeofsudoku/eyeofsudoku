@@ -5,20 +5,21 @@ body, html {
     background-color: #3e382e;
     color: #e2dfcb;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.page-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 .container {
     width: 300px;
     height: 100%;
-    padding: 50px 0;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
 }
 
 .title {
@@ -172,4 +173,58 @@ button {
     align-items: center;
     z-index: 2000;
     display: none;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    background-color: #222;
+    color: #3cff77;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.sticky-header span {
+    flex: 1;
+}
+
+.support-button {
+    background-color: #3cff77;
+    color: #3e382e;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.support-button:hover {
+    background-color: #32e86d;
+}
+
+.inner-header {
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    padding: 0 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+html, body, .page-wrapper {
+    height: 100%;
 }
