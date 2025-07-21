@@ -119,3 +119,57 @@ button {
     max-width: 300px;
     margin: 0 auto;
 }
+
+/* Fullscreen black overlay */
+#fadeToBlack {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    z-index: 1000;
+    transition: opacity 4s ease;
+    display: none;
+}
+
+/* Blinking green circle */
+#blinker {
+    width: 50px;
+    height: 50px;
+    background-color: #3cff77;
+    border-radius: 50%;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Typewriter container */
+#typewriter {
+    width: 300px;
+    color: white;
+    font-family: monospace;
+    font-size: 1.5em;
+    white-space: pre-wrap;
+    white-space: pre-line;
+    margin: 40px auto 0;
+    text-align: center;
+    display: none;
+}
+
+/* Whiteout screen */
+#whiteout {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    font-size: 1.5em;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    display: none;
+}
