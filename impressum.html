@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Impressum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <title>Impressum – TipTipOnui</title>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
-<body style="font-family: sans-serif; max-width: 700px; margin: 40px auto; line-height: 1.6;">
-  <h1>Impressum</h1>
-  <p>Angaben gemäß § 5 TMG</p>
-  <p>
-    Onur Ilter<br>
-    Schwedter Str. 23<br>
-    10119 Berlin<br>
-    Deutschland
-  </p>
+<body>
+<header class="navbar">
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/logo.svg" alt="TipTipOnui logo" style="height: 40px;">
+    </a>
+  </div>
 
-  <p><strong>Kontakt:</strong><br>
-  E-Mail: hello@dtp-services.de</p>
+  <!-- Hamburger Button (only visible on small screens) -->
+<button class="hamburger" id="hamburger-btn" aria-label="Menu">
+  <span></span>
+</button>
 
-  <p><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong><br>
-  Onur Ilter<br>
-  Schwedter Str. 23<br>
-  10119 Berlin</p>
-
-  <hr>
-  <p>Dieses Projekt ist eine nicht-kommerzielle, humorvolle Website zur Unterstützung eines Buchprojekts. Es besteht keine geschäftsmäßige Absicht.</p>
+  <!-- Navigation Links -->
+  <nav class="nav-links" id="nav-menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="support-me.html">Support Me</a></li>
+    </ul>
+  </nav>
+</header>
+<script src="js/script.js" defer></script>
+  <main class="featured">
+    <h2>Impressum</h2>
+    <p>Angaben gemäß § 5 TMG</p>
+    <p>Onur Ilter<br>Schwedter Str. 23<br>10119 Berlin<br>Deutschland</p>
+    <p>Kontakt:<br>E-Mail: hello@dtp-services.de</p>
+    <p>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>Onur Ilter<br>Schwedter Str. 23<br>10119 Berlin</p>
+  </main>
+  <footer class="footer">
+    <p>Designed in Berlin, 2025 · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+  </footer>
 </body>
 </html>

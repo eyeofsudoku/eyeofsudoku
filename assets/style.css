@@ -1,0 +1,737 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fdfdfd;
+  color: #222;
+  line-height: 1.6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar a:hover {
+  color: #3a7bfd;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 6rem 2rem 3rem;
+  background-color: #fafafa;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Featured Books */
+.featured {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featured h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.book-grid {
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.book-grid:not(:last-child) {
+  margin-bottom: 4rem;
+}
+
+.book {
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.book:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.book img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.book h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.book p {
+  font-size: 0.95rem;
+  color: #777;
+}
+
+.book a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  background-color: #3a7bfd;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.book a:hover {
+  background-color: #295edb;
+}
+
+.books-intro {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 0rem;
+  font-size: 1.15rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fafafa;
+  color: #aaa;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+}
+
+
+
+/* === Book Display Enhancements === */
+
+/* Ensure book covers stay square and consistent */
+.book img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+/* Ensure Amazon link is always at the bottom of the book card */
+.book {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Book details spacing */
+.book-info p {
+  margin: 0.2em 0;
+}
+
+/* Stylized category tile (used as first column in category rows) */
+.category-tile {
+  background-color: #e6f2ff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* <-- this is the key change */
+  align-items: center; /* optional, to keep text centered */
+  height: auto;
+}
+
+.category-label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.category-description {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+  margin: 0 auto;
+  margin-top: 0.3rem;
+}
+
+.main-categories-centered {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 20px 0;
+  font-size: 1rem;
+}
+
+.main-categories-centered a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.main-categories-centered a:hover {
+  text-decoration: underline;
+}
+
+.dropdown-nav {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown span {
+  cursor: default;
+  padding: 10px;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 10px;
+  min-width: 180px;
+  z-index: 1000;
+  text-transform: none;
+  font-weight: normal;
+  text-align: left;
+}
+
+.submenu li {
+  margin: 5px 0;
+}
+
+.submenu li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.submenu li a:hover {
+  text-decoration: underline;
+}
+
+.dropdown:hover .submenu {
+  display: block;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  overflow: hidden;
+}
+
+.book {
+  min-width: 0;
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.video-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  padding: 5vh 10px 0;
+  font-size: 1.4em;
+}
+
+.hero-text h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.3em;
+}
+
+.video-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* adjust opacity as needed */
+  z-index: 0;
+}
+
+.hero-text {
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hero-text h1 {
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+.hero-text p {
+  font-size: 1.2em;
+}
+
+.hero-text-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px; /* mobile safe */
+}
+
+.hero-text h1 {
+  line-height: 1.0; /* or try 1.1 for even tighter spacing */
+}
+
+
+.navbar ul li:last-child a {
+  background-color: #3a7bfd;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.navbar ul li:last-child a:hover {
+  background-color: #295edb;
+}
+
+.special-banner {
+  background-color: #3a7bfd;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.special-banner a {
+  color: white;
+  text-decoration: none;
+}
+
+.special-banner a:hover {
+  text-decoration: underline;
+}
+
+
+/* Orange banner for special feature */
+.special-banner {
+  background-color: #f57c00;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.special-banner a {
+  color: white;
+  text-decoration: none;
+}
+
+.special-banner a:hover {
+  text-decoration: underline;
+}
+
+/* Eye of Sudoku Layout */
+.eye-sudoku-wrapper {
+  display: flex;
+  height: auto;
+  padding: 2rem 0;
+}
+
+.eye-sudoku-left {
+  flex: 1;
+  overflow: hidden;
+}
+
+.eye-sudoku-right {
+  flex: 1;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Changed from center */
+  gap: 1rem;
+  min-height: 600px;
+}
+
+.eye-sudoku-right h1 {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.eye-sudoku-right .intro-text {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.eye-sudoku-right .desc-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.eye-bullets {
+  margin-top: 0.3rem;
+  padding-left: 1.2rem;
+}
+
+.eye-bullets li {
+  margin-bottom: 0.3rem;
+}
+
+.eye-book-card {
+  align-self: flex-start;
+  max-width: 300px;
+  margin-top: -1rem;
+}
+
+.eye-book-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  max-width: 600px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.eye-book-horizontal .book-image img {
+  max-width: 160px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  background-color: #fff;
+}
+
+.eye-book-horizontal .book-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.eye-book-horizontal .book-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 300px;
+}
+
+.eye-book-horizontal .book-text h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.eye-book-horizontal .book-text p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.eye-book-horizontal .book-button a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #3a7bfd;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.eye-book-horizontal .book-button a:hover {
+  background-color: #295edb;
+}
+
+@media (max-width: 768px) {
+  .eye-sudoku-wrapper {
+    flex-direction: column;
+  }
+
+  .eye-book-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eye-book-horizontal .book-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .eye-book-horizontal .book-button a {
+    margin-top: 1rem;
+  }
+
+  .eye-sudoku-left video {
+    height: auto !important;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .book {
+    padding: 1rem;
+  }
+
+  .book img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .featured h2 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+/* Hamburger Icon (hidden on desktop) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.hamburger::before,
+.hamburger::after,
+.hamburger span {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #222;
+  margin: 4px 0;
+  border-radius: 1px;
+}
+
+/* Mobile Nav Toggle */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .logo {
+    flex-shrink: 0;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0;
+  }
+
+  .nav-links ul li a {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #f5f5f5;
+  }
+
+  .nav-links ul li:last-child a {
+    background: #3a7bfd;
+    color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+
+  .navbar .logo {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: auto;
+  }
+
+  .hamburger {
+    display: flex;
+    z-index: 1001; /* ensure it stays on top */
+    position: relative;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 100vw;
+    left: 0;
+    right: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+  }
+
+  .nav-links ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.about-text {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  color: white;
+  padding: 5vh 10px 0;
+  font-size: 1em;
+}
+
+.about-text h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.3em;
+}
+
+.about-text {
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.about-text h1 {
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+.about-text p {
+  font-size: 1.2em;
+}
+
+.about-text-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px; /* mobile safe */
+}
+
+.about-text h1 {
+  line-height: 1.0; /* or try 1.1 for even tighter spacing */
+}
