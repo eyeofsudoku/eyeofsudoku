@@ -1,91 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <title>TipTipOnui – Puzzles & Books</title>
-  <link rel="stylesheet" href="assets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye of Sudoku</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<header class="navbar">
-  <div class="logo">
-    <a href="index.html">
-      <img src="assets/logo.svg" alt="TipTipOnui logo" style="height: 40px;">
-    </a>
-  </div>
-
-  <!-- Hamburger Button (only visible on small screens) -->
-<button class="hamburger" id="hamburger-btn" aria-label="Menu">
-  <span></span>
-</button>
-
-  <!-- Navigation Links -->
-  <nav class="nav-links" id="nav-menu">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="books.html">Books</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="support-me.html">Support Me</a></li>
-    </ul>
-  </nav>
-</header>
-<script src="js/script.js" defer></script>
-  <div class="special-banner">
-  <a href="puzzles/eye-of-sudoku.html">🧠 Discover the Eye of Sudoku – Our Most Mysterious Puzzle Book Yet</a>
+<div class="sticky-header">
+<div class="inner-header">
+  <span>Support the Project</span>
+  <a href="https://buymeacoffee.com/eyeofsudoku" target="_blank" class="support-button">Donate</a>
 </div>
-  <div class="video-hero">
-  <video autoplay muted loop playsinline id="bg-video">
-    <source src="assets/intro.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-  </video>
-  <div class="hero-text">
-  <div class="hero-text-inner">
-    <h1>Discover Unique Puzzle Books</h1>
-    <p>Beautifully designed. Carefully crafted. From classic Sudoku to playful word searches and story-driven adventures.</p>
-  </div>
-  </div>
 </div>
 
-<section class="featured">
-  <h2>Featured Books</h2>
-  <div class="book-grid">
-    <div class="book">
-      <img src="https://images-na.ssl-images-amazon.com/images/P/B0FJMHV1MC.01._SCLZZZZZZZ_.jpg" alt="Sudokaji – The Eye of Sudoku Cover">
-      <h3>Sudokaji – The Eye of Sudoku 3D Puzzles</h3>
-      <p>🐪🐪🐪🐪🐪</p>
-      <a href="https://www.amazon.com/dp/B0FJMHV1MC" target="_blank">View on Amazon</a>
-      <blockquote class="review">You may think it's a puzzle book. You'll be tracking signals from Saturn.<br>🧊</blockquote>
+ <div class="page-wrapper">
+    <div class="container">
+        <div class="title">
+            <div class="signal-icon">📡</div>
+            <div class="main-title"><strong>Eye of Sudoku</strong></div>
+            <div class="subtitle">This is a government-backed project. Do not transmit unauthorized codes — they may trigger unintended responses.</div>
+        </div>
+        <div class="input-section">
+            <p>Enter the 33-digit Eye of Sudoku code to transmit the signal.
+The system will verify the alignment of all 33 cubes. If correct, a signal will be sent toward the anomaly — and possibly answered:</p>
+            <input type="text" id="codeInput" maxlength="33" placeholder="Enter 33-digit code" />
+            <button onclick="submitCode()">Transmit Code</button>
+            <div id="response"></div>
+            <div id="loadingBarContainer"><div id="loadingBar"><span>Sending Signal...</span></div></div>
+        </div>
+        <div class="footer">
+            Transmission Array THOTH-12 is currently directing signals to Sector Z-12A — a deep-space mass beyond the Kuiper Belt. Each signal is encoded via Eye activation and emitted using low-frequency quantum pulses. Unauthorized transmissions may corrupt the alignment.
+<a href="/impressum.html">Impressum</a> | <a href="/datenschutz.html">Datenschutz</a>
+        </div>
     </div>
-    <div class="book">
-      <img src="https://images-na.ssl-images-amazon.com/images/P/B0FG6X8Y6F.01._SCLZZZZZZZ_.jpg" alt="Sudokaji – Catitude (Easy, Medium, Hard) Cover">
-      <h3>Sudokaji – Catitude <br>(Easy, Medium, Hard)</h3>
-      <p>🐪🐪🐪🐪🐪</p>
-      <a href="https://www.amazon.com/dp/B0FG6X8Y6F" target="_blank">View on Amazon</a>
-      <blockquote class="review">The cats will be judging your logic... Weirdly inspiring, with attitude.<br>🐈</blockquote>
-    </div>
-    <div class="book">
-      <img src="https://images-na.ssl-images-amazon.com/images/P/B0FHPFZ4HZ.01._SCLZZZZZZZ_.jpg" alt="Sudoku for Kids – Heroes Edition Cover">
-      <h3>Sudoku for Kids<br>Heroes Edition</h3>
-      <p>🐪🐪🐪🐪🐪</p>
-      <a href="https://www.amazon.com/dp/B0FHPFZ4HZ" target="_blank">View on Amazon</a>
-      <blockquote class="review">Your kid will learn to solve sudokus faster than you load the dishwasher.<br>🦸</blockquote>
-    </div>
-    <div class="book">
-      <img src="https://images-na.ssl-images-amazon.com/images/P/B0FGDQJH68.01._SCLZZZZZZZ_.jpg" alt="River and Mr. Banjo (English Edition) Cover">
-      <h3>River and Mr. Banjo<br>(English Edition)</h3>
-      <p>🐪🐪🐪🐪🐪</p>
-      <a href="https://www.amazon.com/dp/B0FGDQJH68" target="_blank">View on Amazon</a>
-      <blockquote class="review">A cat will guide you into a cave only to introduce you to 100 more cats.<br>🐻</blockquote>
-    </div>
-  </div>
-</section>
+    <script src="script.js"></script>
+<div id="fadeToBlack">
+    <div id="blinker"></div>
+    <div id="typewriter"></div>
+</div>
 
-
-  <footer class="footer">
-    <p>Designed in Berlin, 2025 · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
-  </footer>
+<div id="whiteout">
+    Signal lost. Please refresh your browser.
+</div>
 </body>
 </html>
