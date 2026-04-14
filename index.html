@@ -1,47 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye of Sudoku</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eye of Sudoku — Signal Transmission</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #3cff77;
+      --green-dim: #1a7a3a;
+      --green-glow: rgba(60,255,119,0.18);
+      --bg: #070b08;
+      --bg2: #0c120e;
+      --panel: rgba(12,22,14,0.92);
+      --border: rgba(60,255,119,0.2);
+      --border-bright: rgba(60,255,119,0.55);
+      --text: #b8d4bc;
+      --text-dim: #4a6b50;
+      --red: #ff4444;
+      --amber: #e8b84b;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Rajdhani', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+    }
+
+    /* ── Canvas starfield ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* ── Scanline overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.07) 2px,
+        rgba(0,0,0,0.07) 4px
+      );
+    }
+
+    /* ── Page layout ── */
+    .page {
+      position: relative;
+      z-index: 10;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,11,8,0.85);
+      backdrop-filter: blur(4px);
+      flex-shrink: 0;
+    }
+
+    .topbar-id {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+    }
+
+    .topbar-status {
+      font-size: 0.7rem;
+      color: var(--green);
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulsedot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulsedot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+      50% { opacity: 0.3; box-shadow: none; }
+    }
+
+    .donate-btn {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--bg);
+      background: var(--green);
+      border: none;
+      padding: 5px 14px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+
+    .donate-btn:hover { background: #7dffaa; }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .terminal {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── Terminal header bar ── */
+    .term-header {
+      background: var(--green);
+      color: var(--bg);
+      padding: 0.4rem 1rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      display: flex;
+      justify-content: space-between;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    }
+
+    /* ── Terminal body ── */
+    .term-body {
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--panel);
+      padding: 1.8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ── Title block ── */
+    .title-block {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .eye-glyph {
+      font-size: 2.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 8px var(--green));
+      animation: glyphpulse 4s ease-in-out infinite;
+    }
+
+    @keyframes glyphpulse {
+      0%, 100% { filter: drop-shadow(0 0 6px var(--green)); }
+      50% { filter: drop-shadow(0 0 18px var(--green)) drop-shadow(0 0 30px rgba(60,255,119,0.3)); }
+    }
+
+    .title-main {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.14em;
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── Warning block ── */
+    .warning {
+      font-size: 0.65rem;
+      color: var(--amber);
+      letter-spacing: 0.08em;
+      line-height: 1.7;
+      padding-left: 0.8rem;
+      border-left: 2px solid var(--amber);
+      opacity: 0.8;
+    }
+
+    /* ── Input block ── */
+    .input-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .input-label {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.14em;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0;
+    }
+
+    .code-input {
+      flex: 1;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid var(--border-bright);
+      border-right: none;
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      padding: 0.6rem 0.8rem;
+      outline: none;
+      letter-spacing: 0.12em;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .code-input::placeholder { color: var(--text-dim); font-size: 0.75rem; letter-spacing: 0.06em; }
+    .code-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 12px rgba(60,255,119,0.15);
+    }
+
+    .transmit-btn {
+      background: transparent;
+      border: 1px solid var(--border-bright);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      padding: 0.6rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .transmit-btn:hover {
+      background: var(--green-glow);
+    }
+
+    .transmit-btn:active {
+      background: rgba(60,255,119,0.25);
+    }
+
+    /* ── Digit counter ── */
+    .digit-counter {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+
+    .digit-counter.full { color: var(--green); }
+
+    /* ── Loading bar ── */
+    .bar-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bar-label {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bar-track {
+      height: 3px;
+      background: rgba(60,255,119,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--green);
+      transition: width 0.05s linear;
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    /* ── Response area ── */
+    #response {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      letter-spacing: 0.06em;
+      min-height: 0;
+    }
+
+    #response.error { color: var(--red); }
+    #response.partial { color: var(--amber); }
+
+    /* ── Footer ── */
+    .term-footer {
+      border: 1px solid var(--border);
+      border-top: none;
+      background: rgba(7,11,8,0.7);
+      padding: 0.6rem 1rem;
+      font-size: 0.58rem;
+      color: var(--text-dim);
+      letter-spacing: 0.07em;
+      line-height: 1.6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .term-footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+    }
+
+    .term-footer a:hover { color: var(--green); }
+
+    /* ── Fullscreen overlays ── */
+    #fadeToBlack {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 4s ease;
+    }
+
+    #blinker {
+      width: 40px;
+      height: 40px;
+      background: var(--green);
+      border-radius: 50%;
+      opacity: 0;
+      box-shadow: 0 0 20px var(--green);
+      transition: opacity 0.3s ease;
+    }
+
+    #typewriter {
+      width: min(360px, 90vw);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      white-space: pre-wrap;
+      margin: 40px auto 0;
+      text-align: center;
+      display: none;
+      line-height: 1.8;
+    }
+
+    #whiteout {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      color: #000;
+      font-family: var(--mono);
+      font-size: 1rem;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-height: 620px) {
+      .term-body { padding: 1.2rem 1.5rem; gap: 1rem; }
+      .title-main { font-size: 1.2rem; }
+      .eye-glyph { font-size: 1.6rem; }
+      .warning { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .term-body { padding: 1.3rem 1.2rem; }
+      .topbar { padding: 0.5rem 1rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="sticky-header">
-<div class="inner-header">
-  <span>Support the Project</span>
-  <a href="https://buymeacoffee.com/eyeofsudoku" target="_blank" class="support-button">Donate</a>
-</div>
-</div>
 
- <div class="page-wrapper">
-    <div class="container">
-        <div class="title">
-            <div class="signal-icon">📡</div>
-            <div class="main-title"><strong>Eye of Sudoku</strong></div>
-            <div class="subtitle">This is a government-backed project. Do not transmit unauthorized codes — they may trigger unintended responses.</div>
+<canvas id="starfield"></canvas>
+
+<div class="page">
+
+  <div class="topbar">
+    <span class="topbar-id">THOTH-12 // ARRAY NODE Z-12A</span>
+    <span class="topbar-status">
+      <span class="pulse-dot"></span>
+      ONLINE
+    </span>
+    <a href="https://buymeacoffee.com/eyeofsudoku" target="_blank" class="donate-btn">SUPPORT</a>
+  </div>
+
+  <div class="main">
+    <div class="terminal">
+
+      <div class="term-header">
+        <span>SIGNAL TRANSMISSION CONSOLE</span>
+        <span>v2.1.4</span>
+      </div>
+
+      <div class="term-body">
+
+        <div class="title-block">
+          <div class="eye-glyph">◈</div>
+          <div class="title-main">Eye of Sudoku</div>
+          <div class="title-sub">
+            TRANSMISSION ARRAY THOTH-12 · SECTOR Z-12A<br>
+            TARGET: DEEP-SPACE MASS BEYOND THE KUIPER BELT
+          </div>
         </div>
-        <div class="input-section">
-            <p>Enter the 33-digit Eye of Sudoku code to transmit the signal.
-The system will verify the alignment of all 33 cubes. If correct, a signal will be sent toward the anomaly — and possibly answered:</p>
-            <input type="text" id="codeInput" maxlength="33" placeholder="Enter 33-digit code" />
-            <button onclick="submitCode()">Transmit Code</button>
-            <div id="response"></div>
-            <div id="loadingBarContainer"><div id="loadingBar"><span>Sending Signal...</span></div></div>
+
+        <hr class="divider">
+
+        <div class="warning">
+          ⚠ CLASSIFIED SYSTEM — GOVERNMENT-BACKED PROJECT<br>
+          DO NOT TRANSMIT UNAUTHORIZED CODES.<br>
+          UNINTENDED RESPONSES MAY OCCUR.
         </div>
-        <div class="footer">
-            Transmission Array THOTH-12 is currently directing signals to Sector Z-12A — a deep-space mass beyond the Kuiper Belt. Each signal is encoded via Eye activation and emitted using low-frequency quantum pulses. Unauthorized transmissions may corrupt the alignment.
-<a href="/impressum.html">Impressum</a> | <a href="/datenschutz.html">Datenschutz</a>
+
+        <div class="input-block">
+          <div class="input-label">// ENTER 33-DIGIT CUBE ACTIVATION CODE</div>
+          <div class="input-row">
+            <input class="code-input" type="text" id="codeInput" maxlength="33"
+                   placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+                   oninput="updateCounter()" onkeydown="if(event.key==='Enter')submitCode()">
+            <button class="transmit-btn" onclick="submitCode()">TRANSMIT</button>
+          </div>
+          <div class="digit-counter" id="digitCounter">0 / 33 DIGITS</div>
         </div>
+
+        <div class="bar-wrap" id="barWrap">
+          <div class="bar-label">
+            <span id="barLabel">TRANSMITTING SIGNAL</span>
+            <span id="barPct">0%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" id="barFill"></div>
+          </div>
+        </div>
+
+        <div id="response"></div>
+
+      </div>
+
+      <div class="term-footer">
+        <span>LOW-FREQUENCY QUANTUM PULSE ENCODER ACTIVE · UNAUTHORIZED TRANSMISSIONS MAY CORRUPT ALIGNMENT</span>
+        <span>
+          <a href="/impressum.html">IMPRESSUM</a> &nbsp;|&nbsp;
+          <a href="/datenschutz.html">DATENSCHUTZ</a>
+        </span>
+      </div>
+
     </div>
-    <script src="script.js"></script>
-<div id="fadeToBlack">
-    <div id="blinker"></div>
-    <div id="typewriter"></div>
+  </div>
+
 </div>
 
-<div id="whiteout">
-    Signal lost. Please refresh your browser.
+<div id="fadeToBlack">
+  <div id="blinker"></div>
+  <div id="typewriter"></div>
 </div>
+
+<div id="whiteout">SIGNAL LOST. PLEASE REFRESH YOUR BROWSER.</div>
+
+<script>
+  /* ── Starfield ── */
+  (function() {
+    const c = document.getElementById('starfield');
+    const ctx = c.getContext('2d');
+    let stars = [], W, H;
+
+    function resize() {
+      W = c.width  = window.innerWidth;
+      H = c.height = window.innerHeight;
+      buildStars();
+    }
+
+    function buildStars() {
+      stars = [];
+      const n = Math.floor(W * H / 3200);
+      for (let i = 0; i < n; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 0.9 + 0.15,
+          a: Math.random() * 0.6 + 0.1,
+          sp: Math.random() * 0.005 + 0.002,
+          ph: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    let t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#070b08';
+      ctx.fillRect(0, 0, W, H);
+      t += 0.01;
+      for (const s of stars) {
+        const alpha = s.a * (0.45 + 0.55 * Math.sin(t * s.sp * 60 + s.ph));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180,220,190,${alpha.toFixed(3)})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+  })();
+
+  /* ── Digit counter ── */
+  function updateCounter() {
+    const n = document.getElementById('codeInput').value.length;
+    const el = document.getElementById('digitCounter');
+    el.textContent = n + ' / 33 DIGITS';
+    el.className = 'digit-counter' + (n === 33 ? ' full' : '');
+  }
+
+  /* ── Core logic ── */
+  const CORRECT = "893767644186681892349114422349948";
+
+  function submitCode() {
+    const input = document.getElementById('codeInput').value.trim();
+    const resp  = document.getElementById('response');
+    const barWrap = document.getElementById('barWrap');
+    const barFill = document.getElementById('barFill');
+    const barLabel = document.getElementById('barLabel');
+    const barPct  = document.getElementById('barPct');
+
+    resp.className = '';
+    resp.innerHTML = '';
+    barWrap.style.display = 'none';
+    barFill.style.width = '0%';
+
+    if (input.length !== 33) {
+      resp.className = 'error';
+      resp.textContent = '> ERR: CODE MUST BE EXACTLY 33 DIGITS.';
+      return;
+    }
+
+    if (input === CORRECT) {
+      barWrap.style.display = 'flex';
+      barLabel.textContent = 'TRANSMITTING SIGNAL';
+      let w = 0;
+      const iv = setInterval(() => {
+        if (w >= 100) {
+          clearInterval(iv);
+          barLabel.textContent = 'SIGNAL RECEIVED — RESPONSE INCOMING';
+          barFill.style.background = '#e8b84b';
+          barFill.style.boxShadow = '0 0 6px #e8b84b';
+          barPct.textContent = '100%';
+          setTimeout(startFinalSequence, 1500);
+        } else {
+          w++;
+          barFill.style.width = w + '%';
+          barPct.textContent = w + '%';
+        }
+      }, 45);
+
+    } else {
+      let bad = 0;
+      for (let i = 0; i < 33; i++) if (input[i] !== CORRECT[i]) bad++;
+      const delay = Math.floor(Math.random() * (1213 - 13 + 1)) + 13;
+      resp.className = 'partial';
+      resp.innerHTML =
+        '> SIGNAL TRANSMITTED — PARTIAL ACTIVATION (' + (33 - bad) + '/33 CUBES)<br>' +
+        '> LOW SIGNAL STRENGTH DETECTED<br>' +
+        '> ESTIMATED RESPONSE TIME: ' + delay + ' YEARS';
+    }
+  }
+
+  /* ── Final sequence ── */
+  function startFinalSequence() {
+    const fade      = document.getElementById('fadeToBlack');
+    const blinker   = document.getElementById('blinker');
+    const typewriter= document.getElementById('typewriter');
+    const whiteout  = document.getElementById('whiteout');
+
+    fade.style.display = 'flex';
+    setTimeout(() => { fade.style.opacity = 1; }, 80);
+
+    setTimeout(() => {
+      blinker.style.opacity = 1;
+      let count = 0;
+      const iv = setInterval(() => {
+        blinker.style.opacity = blinker.style.opacity == 1 ? 0 : 1;
+        if (++count >= 10) {
+          clearInterval(iv);
+          blinker.style.display = 'none';
+          showTypewriter();
+        }
+      }, 500);
+    }, 4500);
+
+    function showTypewriter() {
+      typewriter.style.display = 'block';
+      const lines = [
+        'Hello\n\n',
+        'Hello\n\n',
+        'Your location is identified\n\n',
+        'We are coming to get the cubes back\n\n'
+      ];
+      let li = 0, ci = 0;
+      typewriter.textContent = '';
+
+      function type() {
+        if (li >= lines.length) { setTimeout(() => { whiteout.style.display = 'flex'; }, 3000); return; }
+        const cur = lines[li];
+        if (ci < cur.length) {
+          typewriter.textContent += cur[ci++];
+          setTimeout(type, 60);
+        } else {
+          li++; ci = 0;
+          setTimeout(type, 3000);
+        }
+      }
+      type();
+    }
+  }
+</script>
+
 </body>
 </html>
